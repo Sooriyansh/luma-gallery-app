@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.G" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryContainer">@color/primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/on_primary_container</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorSurfaceContainer">@color/surface_container</item>
+        <item name="materialButtonStyle">@style/Widget.G.Button.Primary</item>
+        <item name="materialCardViewStyle">@style/Widget.G.Card</item>
+        <item name="bottomNavigationStyle">@style/Widget.G.BottomNavigation</item>
+        <item name="android:colorAccent">@color/primary</item>
+        <item name="android:navigationBarColor">@color/surface</item>
+        <item name="android:windowBackground">@color/surface</item>
+    </style>
+
+    <style name="Widget.G.Button.Primary" parent="Widget.Material3.Button">
+        <item name="cornerRadius">18dp</item><item name="android:minHeight">52dp</item>
+        <item name="android:minWidth">48dp</item><item name="android:textAllCaps">false</item>
+        <item name="iconPadding">8dp</item><item name="android:insetTop">2dp</item><item name="android:insetBottom">2dp</item>
+    </style>
+    <style name="Widget.G.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="cornerRadius">18dp</item><item name="android:minHeight">52dp</item>
+        <item name="android:minWidth">48dp</item><item name="android:textAllCaps">false</item><item name="iconPadding">8dp</item>
+    </style>
+    <style name="Widget.G.Button.Tonal" parent="Widget.Material3.Button.TonalButton">
+        <item name="cornerRadius">18dp</item><item name="android:minHeight">48dp</item>
+        <item name="android:minWidth">48dp</item><item name="android:textAllCaps">false</item><item name="iconPadding">8dp</item>
+    </style>
+    <style name="Widget.G.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="cornerRadius">16dp</item><item name="android:minHeight">48dp</item>
+        <item name="android:minWidth">48dp</item><item name="android:textAllCaps">false</item><item name="iconPadding">6dp</item>
+    </style>
+    <style name="Widget.G.Button.Destructive" parent="Widget.G.Button.Text">
+        <item name="android:textColor">@color/destructive</item><item name="iconTint">@color/destructive</item>
+    </style>
+    <style name="Widget.G.Button.Viewer" parent="Widget.Material3.Button.TextButton">
+        <item name="cornerRadius">16dp</item><item name="android:minHeight">60dp</item><item name="android:minWidth">76dp</item>
+        <item name="android:textAllCaps">false</item><item name="android:textColor">@android:color/white</item><item name="iconTint">@android:color/white</item>
+        <item name="iconGravity">textTop</item><item name="iconPadding">2dp</item><item name="android:textSize">11sp</item>
+    </style>
+    <style name="Widget.G.Card" parent="Widget.Material3.CardView.Elevated">
+        <item name="shapeAppearance">@style/ShapeAppearance.Gallery.Card</item><item name="cardElevation">1dp</item>
+    </style>
+    <style name="Widget.G.BottomNavigation" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemActiveIndicatorStyle">@style/Widget.G.NavigationIndicator</item><item name="elevation">8dp</item>
+    </style>
+    <style name="Widget.G.NavigationIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/primary_container</item><item name="shapeAppearance">@style/ShapeAppearance.Material3.Corner.Full</item>
+    </style>
+</resources>

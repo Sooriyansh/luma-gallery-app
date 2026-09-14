@@ -1,0 +1,11 @@
+<resources>
+    <dimen name="grid_min_width">124dp</dimen>
+    <dimen name="space_xsmall">4dp</dimen>
+    <dimen name="space_small">8dp</dimen>
+    <dimen name="space_medium">16dp</dimen>
+    <dimen name="space_large">24dp</dimen>
+    <dimen name="corner_small">12dp</dimen>
+    <dimen name="corner_medium">18dp</dimen>
+    <dimen name="corner_large">28dp</dimen>
+    <dimen name="touch_target">48dp</dimen>
+</resources>

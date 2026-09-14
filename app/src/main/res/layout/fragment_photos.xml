@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+        <com.google.android.material.card.MaterialCardView android:id="@+id/selection_bar"
+            android:layout_width="match_parent" android:layout_height="72dp" android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="6dp" android:layout_marginBottom="4dp" android:visibility="gone"
+            app:cardBackgroundColor="?attr/colorSecondaryContainer" app:cardCornerRadius="22dp" app:cardElevation="2dp">
+            <HorizontalScrollView android:layout_width="match_parent" android:layout_height="match_parent"
+                android:fillViewport="true" android:scrollbars="none">
+                <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent"
+                    android:gravity="center_vertical" android:orientation="horizontal" android:paddingHorizontal="6dp">
+                    <com.google.android.material.button.MaterialButton android:id="@+id/cancel_selection"
+                        style="@style/Widget.G.Button.Text" android:layout_width="52dp" android:layout_height="52dp"
+                        android:contentDescription="Deselect all" android:text="" app:icon="@drawable/ic_close" app:iconGravity="textStart" />
+                    <TextView android:id="@+id/selection_count" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:minWidth="84dp" android:paddingHorizontal="10dp" android:text="0 Selected"
+                        android:textAppearance="?attr/textAppearanceTitleMedium" android:textStyle="bold" />
+                    <com.google.android.material.button.MaterialButton android:id="@+id/share_selected" style="@style/Widget.G.Button.Text"
+                        android:layout_width="wrap_content" android:layout_height="52dp" android:text="Share" app:icon="@drawable/ic_share" />
+                    <com.google.android.material.button.MaterialButton android:id="@+id/ai_selected" style="@style/Widget.G.Button.Tonal"
+                        android:layout_width="wrap_content" android:layout_height="52dp" android:text="AI Scan" app:icon="@drawable/ic_ai_scan" />
+                    <com.google.android.material.button.MaterialButton android:id="@+id/favorite_selected" style="@style/Widget.G.Button.Text"
+                        android:layout_width="wrap_content" android:layout_height="52dp" android:text="Favorite" app:icon="@drawable/ic_favorite" />
+                    <com.google.android.material.button.MaterialButton android:id="@+id/eye_selected" style="@style/Widget.G.Button.Text"
+                        android:layout_width="wrap_content" android:layout_height="52dp" android:text="Hide" app:icon="@drawable/ic_eye" />
+                    <com.google.android.material.button.MaterialButton android:id="@+id/copy_selected" style="@style/Widget.G.Button.Text"
+                        android:layout_width="wrap_content" android:layout_height="52dp" android:text="Copy" app:icon="@drawable/ic_albums" />
+                    <com.google.android.material.button.MaterialButton android:id="@+id/move_selected" style="@style/Widget.G.Button.Text"
+                        android:layout_width="wrap_content" android:layout_height="52dp" android:text="Move" app:icon="@drawable/ic_add_folder" />
+                    <com.google.android.material.button.MaterialButton android:id="@+id/select_all" style="@style/Widget.G.Button.Text"
+                        android:layout_width="wrap_content" android:layout_height="52dp" android:text="Select all" />
+                    <com.google.android.material.button.MaterialButton android:id="@+id/delete_selected" style="@style/Widget.G.Button.Destructive"
+                        android:layout_width="wrap_content" android:layout_height="52dp" android:text="Delete" app:icon="@drawable/ic_delete" />
+                </LinearLayout>
+            </HorizontalScrollView>
+        </com.google.android.material.card.MaterialCardView>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@+id/swipe"
+            android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+            <androidx.recyclerview.widget.RecyclerView android:id="@+id/grid" android:layout_width="match_parent"
+                android:layout_height="match_parent" android:clipToPadding="false" android:padding="4dp"
+                android:paddingBottom="112dp" android:scrollbars="none" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/gallery_state" android:layout_width="match_parent" android:layout_height="match_parent"
+        android:background="?attr/colorSurface" android:gravity="center" android:orientation="vertical"
+        android:padding="32dp" android:visibility="gone">
+        <com.google.android.material.card.MaterialCardView android:layout_width="match_parent" android:layout_height="wrap_content"
+            app:cardBackgroundColor="?attr/colorSurfaceContainer" app:cardCornerRadius="28dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+                android:orientation="vertical" android:padding="28dp">
+                <ImageView android:layout_width="72dp" android:layout_height="72dp" android:contentDescription="Gallery status"
+                    android:src="@drawable/image_placeholder" />
+                <TextView android:id="@+id/state_title" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp" android:gravity="center" android:textAppearance="?attr/textAppearanceHeadlineSmall" />
+                <TextView android:id="@+id/state_message" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp" android:gravity="center" android:textAppearance="?attr/textAppearanceBodyLarge" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/state_action" style="@style/Widget.G.Button.Primary"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="20dp" android:text="Retry" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</FrameLayout>

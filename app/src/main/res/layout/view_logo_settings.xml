@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    app:cardBackgroundColor="?attr/colorSurfaceContainer" app:cardCornerRadius="24dp" app:cardElevation="1dp">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:gravity="center_horizontal" android:orientation="vertical" android:padding="20dp">
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Custom app logo" android:textAppearance="?attr/textAppearanceTitleLarge" android:textStyle="bold" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="6dp"
+            android:text="Choose any photo for Luma's in-app logo and an optional custom Home-screen shortcut."
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
+        <ImageView android:id="@+id/logo_preview" android:layout_width="104dp" android:layout_height="104dp"
+            android:layout_marginTop="16dp" android:contentDescription="Current custom app logo preview"
+            android:scaleType="centerCrop" android:src="@mipmap/ic_launcher" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/choose_logo"
+            style="@style/Widget.G.Button.Primary" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="18dp" android:text="Choose logo image" app:icon="@drawable/ic_photos" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/add_logo_shortcut"
+            style="@style/Widget.G.Button.Secondary" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" android:text="Add custom Home icon" app:icon="@drawable/ic_add_folder" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/reset_logo"
+            style="@style/Widget.G.Button.Text" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="6dp" android:text="Reset to default" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

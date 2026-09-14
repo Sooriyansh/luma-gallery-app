@@ -1,0 +1,142 @@
+
+C:\Users\raj patel\AndroidStudioProjects\G>if "Windows_NT" == "Windows_NT" setlocal
+
+C:\Users\raj patel\AndroidStudioProjects\G>set DIRNAME=C:\Users\raj patel\AndroidStudioProjects\G\ 
+
+C:\Users\raj patel\AndroidStudioProjects\G>if "C:\Users\raj patel\AndroidStudioProjects\G\" == "" set DIRNAME=. 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set APP_BASE_NAME=gradlew 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set APP_HOME=C:\Users\raj patel\AndroidStudioProjects\G\ 
+
+C:\Users\raj patel\AndroidStudioProjects\G>for %i in ("C:\Users\raj patel\AndroidStudioProjects\G\") do set APP_HOME=%~fi 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set APP_HOME=C:\Users\raj patel\AndroidStudioProjects\G\ 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set DEFAULT_JVM_OPTS="-Xmx64m" "-Xms64m" 
+
+C:\Users\raj patel\AndroidStudioProjects\G>if defined JAVA_HOME goto findJavaFromJavaHome 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set JAVA_EXE=java.exe 
+
+C:\Users\raj patel\AndroidStudioProjects\G>java.exe -version  1>NUL 2>&1 
+
+C:\Users\raj patel\AndroidStudioProjects\G>if 0 EQU 0 goto execute 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set CLASSPATH= 
+
+C:\Users\raj patel\AndroidStudioProjects\G>"java.exe" "-Xmx64m" "-Xms64m"   "-Dorg.gradle.appname=gradlew" -classpath "" -jar "C:\Users\raj patel\AndroidStudioProjects\G\\gradle\wrapper\gradle-wrapper.jar" --no-daemon assembleRelease lintRelease --stacktrace 
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.5.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Calculating task graph as no cached configuration is available for tasks: assembleRelease lintRelease
+> Task :app:preBuild UP-TO-DATE
+> Task :app:generateReleaseAssets UP-TO-DATE
+> Task :app:preReleaseBuild UP-TO-DATE
+> Task :app:generateReleaseResources
+> Task :app:mergeReleaseJniLibFolders
+> Task :app:dataBindingMergeDependencyArtifactsRelease
+> Task :app:mergeReleaseNativeLibs NO-SOURCE
+> Task :app:stripReleaseDebugSymbols NO-SOURCE
+> Task :app:extractReleaseNativeSymbolTables NO-SOURCE
+> Task :app:mergeReleaseNativeDebugMetadata NO-SOURCE
+> Task :app:processReleaseNavigationResources
+> Task :app:generateReleaseBuildConfig
+> Task :app:checkReleaseDuplicateClasses
+> Task :app:packageReleaseResources
+> Task :app:parseReleaseLocalResources
+> Task :app:generateReleaseRFile
+> Task :app:mergeReleaseArtProfile
+> Task :app:mapReleaseSourceSetPaths
+> Task :app:compileReleaseNavigationResources
+> Task :app:createReleaseCompatibleScreenManifests
+> Task :app:extractDeepLinksRelease
+> Task :app:javaPreCompileRelease
+> Task :app:extractProguardFiles UP-TO-DATE
+> Task :app:mergeReleaseStartupProfile
+> Task :app:checkReleaseAarMetadata
+> Task :app:extractReleaseVersionControlInfo
+> Task :app:mergeReleaseAssets
+> Task :app:compressReleaseAssets
+> Task :app:validateSigningRelease
+> Task :app:writeReleaseAppMetadata
+> Task :app:writeReleaseSigningConfigVersions
+> Task :app:mergeReleaseResources
+> Task :app:collectReleaseDependencies
+> Task :app:sdkReleaseDependencyData
+> Task :app:processReleaseMainManifest
+> Task :app:processReleaseManifest
+> Task :app:processReleaseManifestForPackage
+> Task :app:dataBindingGenBaseClassesRelease
+> Task :app:compileReleaseKotlin NO-SOURCE
+> Task :app:processReleaseResources
+> Task :app:compileReleaseJavaWithJavac
+
+> Task :app:mergeReleaseGeneratedProguardFiles
+> Task :app:processReleaseJavaRes
+> Task :app:generateReleaseLintVitalReportModel
+> Task :app:generateReleaseLintReportModel
+> Task :app:expandReleaseArtProfileWildcards
+> Task :app:lintVitalAnalyzeRelease
+> Task :app:mergeReleaseJavaResource
+> Task :app:lintAnalyzeRelease
+> Task :app:minifyReleaseWithR8
+> Task :app:lintVitalReportRelease SKIPPED
+> Task :app:lintVitalRelease SKIPPED
+
+> Task :app:lintReportRelease
+Wrote HTML report to file:///C:/Users/raj%20patel/AndroidStudioProjects/G/app/build/reports/lint-results-release.html
+Wrote SARIF report to file:///C:/Users/raj%20patel/AndroidStudioProjects/G/app/build/reports/lint-results-release.sarif
+Lint found 1 error and 135 warnings. First failure:
+C:\Users\raj patel\AndroidStudioProjects\G\app\src\main\java\com\example\g\activities\RecycleBinActivity.java:29: Error: Call requires API level 30 (current min is 24): restoreItem [NewApi]
+    @Override protected void onCreate(Bundle b){super.onCreate(b);setContentView(R.layout.activity_recycle_bin);MaterialToolbar t=findViewById(R.id.toolbar);t.setNavigationIcon(com.google.android.material.R.drawable.ic_arrow_back_black_24);t.setNavigationOnClickListener(v->finish());empty=findViewById(R.id.bin_empty);androidx.recyclerview.widget.RecyclerView grid=findViewById(R.id.bin_grid);grid.setLayoutManager(new GridLayoutManager(this,3));adapter=new MediaAdapter(this::restoreItem);grid.setAdapter(adapter);load();}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ~~~~~~~~~~~~~~~~~
+
+
+> Task :app:lintRelease FAILED
+Lint found 1 error, 135 warnings. First failure:
+
+C:\Users\raj patel\AndroidStudioProjects\G\app\src\main\java\com\example\g\activities\RecycleBinActivity.java:29: Error: Call requires API level 30 (current min is 24): restoreItem [NewApi]
+    @Override protected void onCreate(Bundle b){super.onCreate(b);setContentView(R.layout.activity_recycle_bin);MaterialToolbar t=findViewById(R.id.toolbar);t.setNavigationIcon(com.google.android.material.R.drawable.ic_arrow_back_black_24);t.setNavigationOnClickListener(v->finish());empty=findViewById(R.id.bin_empty);androidx.recyclerview.widget.RecyclerView grid=findViewById(R.id.bin_grid);grid.setLayoutManager(new GridLayoutManager(this,3));adapter=new MediaAdapter(this::restoreItem);grid.setAdapter(adapter);load();}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "NewApi":
+   This check scans through all the Android API calls in the application and
+   warns about any calls that are not available on all versions targeted by
+   this application (according to its minimum SDK attribute in the manifest).
+
+   If you really want to use this API and don't need to support older devices
+   just set the minSdkVersion in your build.gradle or AndroidManifest.xml
+   files.
+
+   If your code is deliberately accessing newer APIs, and you have ensured
+   (e.g. with conditional execution) that this code will only ever be called
+   on a supported platform, then you can annotate your class or method with
+   the @TargetApi annotation specifying the local minimum SDK to apply, such
+   as @TargetApi(11), such that this check considers 11 rather than your
+   manifest file's minimum SDK as the required API level.
+
+   If you are deliberately setting android: attributes in style definitions,
+   make sure you place this in a values-vNN folder in order to avoid running
+   into runtime conflicts on certain devices where manufacturers have added
+   custom attributes whose ids conflict with the new ones on later platforms.
+
+   Similarly, you can use tools:targetApi="11" in an XML file to indicate that
+   the element will only be inflated in an adequate context.
+
+
+The full lint text report is located at:
+  C:\Users\raj patel\AndroidStudioProjects\G\app\build\intermediates\lint_intermediate_text_report\release\lintReportRelease\lint-results-release.txt
+
+C:\Users\raj patel\AndroidStudioProjects\G>if -1 EQU 0 goto mainEnd 
+
+C:\Users\raj patel\AndroidStudioProjects\G>rem Set variable GRADLE_EXIT_CONSOLE if you need the _script_ return code instead of 
+
+C:\Users\raj patel\AndroidStudioProjects\G>rem the _cmd.exe /c_ return code! 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set EXIT_CODE=-1 
+
+C:\Users\raj patel\AndroidStudioProjects\G>if -1 EQU 0 set EXIT_CODE=1 
+
+C:\Users\raj patel\AndroidStudioProjects\G>if not "" == "" exit -1 
+
+C:\Users\raj patel\AndroidStudioProjects\G>exit /b -1 

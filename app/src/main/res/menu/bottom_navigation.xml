@@ -1,0 +1,7 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+ <item android:id="@+id/nav_photos" android:icon="@drawable/ic_photos" android:title="@string/photos"/>
+ <item android:id="@+id/nav_albums" android:icon="@drawable/ic_albums" android:title="@string/albums"/>
+ <item android:id="@+id/nav_vault" android:icon="@drawable/ic_eye" android:title="@string/vault"/>
+ <item android:id="@+id/nav_explore" android:icon="@drawable/ic_ai_scan" android:title="@string/explore"/>
+ <item android:id="@+id/nav_settings" android:icon="@drawable/ic_settings" android:title="@string/settings"/>
+</menu>

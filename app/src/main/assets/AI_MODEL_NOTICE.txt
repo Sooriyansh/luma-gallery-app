@@ -1,0 +1,10 @@
+AI image classifier model attribution
+
+Model: juandaram/deepfake-detector, model.tflite
+Source: https://huggingface.co/juandaram/deepfake-detector
+SHA-256: 056505D05BE51DD91578BD1B35EC71F7A9B183E1AFEA3EA7F20F24EC0B366D74
+Documented contract: RGB 128x128 FLOAT32, values divided by 255, one sigmoid output where 0=FAKE and 1=REAL.
+Model-card validation accuracy: approximately 84%. The model card warns of possible bias toward FAKE and reduced performance outside its training distribution.
+License declared by the model repository: MIT.
+
+This application treats the output as probabilistic evidence, never as proof. The model is run locally and media is not uploaded.

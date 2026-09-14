@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_root"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="?attr/colorSurface">
+
+    <com.google.android.material.appbar.AppBarLayout android:id="@+id/app_bar"
+        android:layout_width="match_parent" android:layout_height="wrap_content" android:elevation="0dp">
+        <com.google.android.material.appbar.MaterialToolbar android:id="@+id/toolbar"
+            android:layout_width="match_parent" android:layout_height="64dp" android:minHeight="56dp"
+            android:paddingStart="8dp" android:paddingEnd="8dp" app:title="@string/app_name"
+            app:titleTextAppearance="?attr/textAppearanceHeadlineSmall" app:menu="@menu/gallery_toolbar" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.fragment.app.FragmentContainerView android:id="@+id/container"
+        android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginBottom="80dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView android:id="@+id/bottom_nav"
+        style="@style/Widget.G.BottomNavigation" android:layout_width="match_parent"
+        android:layout_height="80dp" android:layout_gravity="bottom" android:background="?attr/colorSurfaceContainer"
+        app:itemIconSize="24dp" app:labelVisibilityMode="labeled" app:menu="@menu/bottom_navigation" />
+
+    <LinearLayout android:id="@+id/fab_stack" android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end" android:layout_marginEnd="16dp" android:layout_marginBottom="92dp"
+        android:gravity="end" android:orientation="vertical">
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton android:id="@+id/ai_scan_fab"
+            android:layout_width="wrap_content" android:layout_height="wrap_content" android:contentDescription="Scan gallery for AI-generated media"
+            android:text="AI Scan" app:icon="@drawable/ic_ai_scan" app:iconTint="?attr/colorOnPrimary" />
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton android:id="@+id/fab"
+            android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp"
+            android:contentDescription="Add a media folder" android:text="@string/add_folder"
+            app:backgroundTint="?attr/colorSecondaryContainer" app:icon="@drawable/ic_add_folder"
+            app:iconTint="?attr/colorOnSecondaryContainer" android:textColor="?attr/colorOnSecondaryContainer" />
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,87 @@
+
+C:\Users\raj patel\AndroidStudioProjects\G>if "Windows_NT" == "Windows_NT" setlocal
+
+C:\Users\raj patel\AndroidStudioProjects\G>set DIRNAME=C:\Users\raj patel\AndroidStudioProjects\G\ 
+
+C:\Users\raj patel\AndroidStudioProjects\G>if "C:\Users\raj patel\AndroidStudioProjects\G\" == "" set DIRNAME=. 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set APP_BASE_NAME=gradlew 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set APP_HOME=C:\Users\raj patel\AndroidStudioProjects\G\ 
+
+C:\Users\raj patel\AndroidStudioProjects\G>for %i in ("C:\Users\raj patel\AndroidStudioProjects\G\") do set APP_HOME=%~fi 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set APP_HOME=C:\Users\raj patel\AndroidStudioProjects\G\ 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set DEFAULT_JVM_OPTS="-Xmx64m" "-Xms64m" 
+
+C:\Users\raj patel\AndroidStudioProjects\G>if defined JAVA_HOME goto findJavaFromJavaHome 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set JAVA_EXE=java.exe 
+
+C:\Users\raj patel\AndroidStudioProjects\G>java.exe -version  1>NUL 2>&1 
+
+C:\Users\raj patel\AndroidStudioProjects\G>if 0 EQU 0 goto execute 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set CLASSPATH= 
+
+C:\Users\raj patel\AndroidStudioProjects\G>"java.exe" "-Xmx64m" "-Xms64m"   "-Dorg.gradle.appname=gradlew" -classpath "" -jar "C:\Users\raj patel\AndroidStudioProjects\G\\gradle\wrapper\gradle-wrapper.jar" --no-daemon assembleRelease --stacktrace 
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.5.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Calculating task graph as no cached configuration is available for tasks: assembleRelease
+> Task :app:preBuild UP-TO-DATE
+> Task :app:generateReleaseAssets UP-TO-DATE
+> Task :app:preReleaseBuild UP-TO-DATE
+> Task :app:generateReleaseResources UP-TO-DATE
+> Task :app:mergeReleaseJniLibFolders UP-TO-DATE
+> Task :app:dataBindingMergeDependencyArtifactsRelease UP-TO-DATE
+> Task :app:checkReleaseDuplicateClasses UP-TO-DATE
+> Task :app:packageReleaseResources UP-TO-DATE
+> Task :app:generateReleaseBuildConfig UP-TO-DATE
+> Task :app:mergeReleaseNativeLibs NO-SOURCE
+> Task :app:stripReleaseDebugSymbols NO-SOURCE
+> Task :app:extractReleaseNativeSymbolTables NO-SOURCE
+> Task :app:javaPreCompileRelease UP-TO-DATE
+> Task :app:mergeReleaseNativeDebugMetadata NO-SOURCE
+> Task :app:processReleaseNavigationResources UP-TO-DATE
+> Task :app:parseReleaseLocalResources UP-TO-DATE
+> Task :app:checkReleaseAarMetadata UP-TO-DATE
+> Task :app:generateReleaseRFile UP-TO-DATE
+> Task :app:extractDeepLinksRelease UP-TO-DATE
+> Task :app:createReleaseCompatibleScreenManifests UP-TO-DATE
+> Task :app:mapReleaseSourceSetPaths
+> Task :app:compileReleaseNavigationResources UP-TO-DATE
+> Task :app:mergeReleaseStartupProfile UP-TO-DATE
+> Task :app:desugarReleaseFileDependencies
+> Task :app:mergeReleaseArtProfile UP-TO-DATE
+> Task :app:mergeReleaseAssets UP-TO-DATE
+> Task :app:compressReleaseAssets UP-TO-DATE
+> Task :app:extractReleaseVersionControlInfo UP-TO-DATE
+> Task :app:extractProguardFiles UP-TO-DATE
+> Task :app:collectReleaseDependencies UP-TO-DATE
+> Task :app:sdkReleaseDependencyData UP-TO-DATE
+> Task :app:validateSigningRelease UP-TO-DATE
+> Task :app:writeReleaseAppMetadata UP-TO-DATE
+> Task :app:writeReleaseSigningConfigVersions UP-TO-DATE
+> Task :app:processReleaseMainManifest UP-TO-DATE
+> Task :app:processReleaseManifest UP-TO-DATE
+> Task :app:processReleaseManifestForPackage UP-TO-DATE
+> Task :app:mergeReleaseResources
+> Task :app:mergeExtDexRelease
+> Task :app:dataBindingGenBaseClassesRelease UP-TO-DATE
+> Task :app:compileReleaseKotlin NO-SOURCE
+> Task :app:compileReleaseJavaWithJavac UP-TO-DATE
+
+C:\Users\raj patel\AndroidStudioProjects\G>if -1 EQU 0 goto mainEnd 
+
+C:\Users\raj patel\AndroidStudioProjects\G>rem Set variable GRADLE_EXIT_CONSOLE if you need the _script_ return code instead of 
+
+C:\Users\raj patel\AndroidStudioProjects\G>rem the _cmd.exe /c_ return code! 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set EXIT_CODE=-1 
+
+C:\Users\raj patel\AndroidStudioProjects\G>if -1 EQU 0 set EXIT_CODE=1 
+
+C:\Users\raj patel\AndroidStudioProjects\G>if not "" == "" exit -1 
+
+C:\Users\raj patel\AndroidStudioProjects\G>exit /b -1 

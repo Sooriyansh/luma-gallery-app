@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Luma Gallery</string>
+    <string name="photos">Photos</string><string name="albums">Albums</string><string name="vault">Eye</string><string name="explore">AI Scan</string><string name="settings">Settings</string>
+    <string name="ai_scan">AI Scan</string><string name="add_folder">Add folder</string>
+    <string name="permission_explanation">Luma uses Android\'s media access to show your photos and videos. Your media stays on this device.</string>
+    <string name="empty_gallery">No photos or videos found</string><string name="grant_access">Grant access</string><string name="search">Search your library</string>
+</resources>

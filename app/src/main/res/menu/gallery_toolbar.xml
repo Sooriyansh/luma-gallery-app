@@ -1,0 +1,6 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+ <item android:id="@+id/action_search" android:icon="@drawable/ic_search" android:title="Search" app:showAsAction="always"/>
+ <item android:id="@+id/action_add_folder" android:title="Add folder" app:showAsAction="never"/>
+ <item android:id="@+id/action_create_folder" android:title="Create new folder" app:showAsAction="never"/>
+ <item android:id="@+id/action_refresh" android:icon="@drawable/ic_ai_scan" android:title="Scan gallery for AI" app:showAsAction="never"/>
+</menu>

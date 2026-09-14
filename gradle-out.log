@@ -1,0 +1,100 @@
+
+C:\Users\raj patel\AndroidStudioProjects\G>if "Windows_NT" == "Windows_NT" setlocal
+
+C:\Users\raj patel\AndroidStudioProjects\G>set DIRNAME=C:\Users\raj patel\AndroidStudioProjects\G\ 
+
+C:\Users\raj patel\AndroidStudioProjects\G>if "C:\Users\raj patel\AndroidStudioProjects\G\" == "" set DIRNAME=. 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set APP_BASE_NAME=gradlew 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set APP_HOME=C:\Users\raj patel\AndroidStudioProjects\G\ 
+
+C:\Users\raj patel\AndroidStudioProjects\G>for %i in ("C:\Users\raj patel\AndroidStudioProjects\G\") do set APP_HOME=%~fi 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set APP_HOME=C:\Users\raj patel\AndroidStudioProjects\G\ 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set DEFAULT_JVM_OPTS="-Xmx64m" "-Xms64m" 
+
+C:\Users\raj patel\AndroidStudioProjects\G>if defined JAVA_HOME goto findJavaFromJavaHome 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set JAVA_EXE=java.exe 
+
+C:\Users\raj patel\AndroidStudioProjects\G>java.exe -version  1>NUL 2>&1 
+
+C:\Users\raj patel\AndroidStudioProjects\G>if 0 EQU 0 goto execute 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set CLASSPATH= 
+
+C:\Users\raj patel\AndroidStudioProjects\G>"java.exe" "-Xmx64m" "-Xms64m"   "-Dorg.gradle.appname=gradlew" -classpath "" -jar "C:\Users\raj patel\AndroidStudioProjects\G\\gradle\wrapper\gradle-wrapper.jar" assembleDebug lintDebug --stacktrace 
+Starting a Gradle Daemon (subsequent builds will be faster)
+Calculating task graph as no cached configuration is available for tasks: assembleDebug lintDebug
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:generateDebugBuildConfig UP-TO-DATE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:mergeDebugAssets UP-TO-DATE
+> Task :app:compressDebugAssets UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:generateDebugGlobalSynthetics UP-TO-DATE
+> Task :app:processDebugNavigationResources UP-TO-DATE
+> Task :app:desugarDebugFileDependencies UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:generateDebugRFile UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:compileDebugNavigationResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:dataBindingMergeDependencyArtifactsDebug UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:mergeDebugJniLibFolders UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :app:mergeDebugNativeLibs NO-SOURCE
+> Task :app:stripDebugDebugSymbols NO-SOURCE
+> Task :app:validateSigningDebug UP-TO-DATE
+> Task :app:writeDebugAppMetadata UP-TO-DATE
+> Task :app:writeDebugSigningConfigVersions UP-TO-DATE
+> Task :app:preDebugAndroidTestBuild SKIPPED
+> Task :app:extractProguardFiles UP-TO-DATE
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:checkDebugDuplicateClasses UP-TO-DATE
+> Task :app:dataBindingGenBaseClassesDebug UP-TO-DATE
+> Task :app:mergeLibDexDebug UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+> Task :app:compileDebugKotlin NO-SOURCE
+> Task :app:mergeExtDexDebug UP-TO-DATE
+> Task :app:compileDebugJavaWithJavac
+
+> Task :app:processDebugJavaRes UP-TO-DATE
+> Task :app:mergeDebugJavaResource UP-TO-DATE
+> Task :app:bundleDebugClassesToCompileJar
+> Task :app:generateDebugAndroidTestLintModel
+> Task :app:generateDebugLintReportModel
+> Task :app:generateDebugUnitTestLintModel
+> Task :app:dexBuilderDebug
+> Task :app:lintAnalyzeDebug
+> Task :app:lintAnalyzeDebugAndroidTest
+> Task :app:lintAnalyzeDebugUnitTest
+> Task :app:mergeProjectDexDebug
+> Task :app:packageDebug
+> Task :app:createDebugApkListingFileRedirect UP-TO-DATE
+> Task :app:assembleDebug
+
+C:\Users\raj patel\AndroidStudioProjects\G>if 1 EQU 0 goto mainEnd 
+
+C:\Users\raj patel\AndroidStudioProjects\G>rem Set variable GRADLE_EXIT_CONSOLE if you need the _script_ return code instead of 
+
+C:\Users\raj patel\AndroidStudioProjects\G>rem the _cmd.exe /c_ return code! 
+
+C:\Users\raj patel\AndroidStudioProjects\G>set EXIT_CODE=1 
+
+C:\Users\raj patel\AndroidStudioProjects\G>if 1 EQU 0 set EXIT_CODE=1 
+
+C:\Users\raj patel\AndroidStudioProjects\G>if not "" == "" exit 1 
+
+C:\Users\raj patel\AndroidStudioProjects\G>exit /b 1 

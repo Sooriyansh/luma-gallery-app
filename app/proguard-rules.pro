@@ -1,0 +1,2 @@
+-keep class com.example.g.models.** { *; }
+-keepattributes Signature,*Annotation*

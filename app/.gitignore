@@ -1,0 +1,45 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Android Studio
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Local configuration
+local.properties
+
+# Android build files
+/captures/
+/.externalNativeBuild/
+/.cxx/
+
+# APK / AAB files
+*.apk
+*.aab
+
+# Signing / Keystore files
+*.jks
+*.keystore
+
+# Generated files
+bin/
+gen/
+out/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Google Services
+google-services.json
+
+# Environment / secrets
+.env
+.env.*
