@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Privacy Policy for Luma Gallery, an Android photo and video gallery.">
+  <meta name="color-scheme" content="light dark">
+  <title>Privacy Policy · Luma Gallery</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#policy">Skip to privacy policy</a>
+  <header class="site-header" id="top">
+    <div class="header-inner">
+      <a class="brand" href="#top" aria-label="Luma Gallery privacy policy home">
+        <span class="brand-mark" aria-hidden="true">✦</span><span>Luma <strong>Gallery</strong></span>
+      </a>
+      <div class="header-actions">
+        <a class="repository-link" href="https://github.com/Sooriyansh/luma-gallery-app" target="_blank" rel="noopener noreferrer">Project source <span aria-hidden="true">↗</span></a>
+        <button class="theme-toggle" type="button" aria-label="Switch color theme" aria-pressed="false">
+          <span class="theme-icon" aria-hidden="true">◐</span><span class="theme-label">Theme</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Luma Gallery · Android application</p>
+        <h1 id="page-title">Privacy, kept in focus.</h1>
+        <p class="lede">This policy explains how Luma Gallery handles media, local analysis, Private Vault content, and app data.</p>
+        <dl class="policy-meta">
+          <div><dt>Last updated</dt><dd>October 23, 2026</dd></div>
+          <div><dt>Package name</dt><dd><code>com.example.g</code></dd></div>
+        </dl>
+      </div>
+      <aside class="summary-card" aria-label="Privacy at a glance">
+        <p class="card-kicker">At a glance</p>
+        <ul>
+          <li><span aria-hidden="true">✓</span> Media analysis is performed on-device.</li>
+          <li><span aria-hidden="true">✓</span> Private Vault media is encrypted in app-private storage.</li>
+          <li><span aria-hidden="true">✓</span> No advertising or analytics SDK is included in this build.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <div class="layout">
+      <aside class="toc" aria-label="Table of contents">
+        <p class="toc-title">On this page</p>
+        <nav>
+          <a href="#introduction">Introduction</a>
+          <a href="#information">Information we collect</a>
+          <a href="#media-access">Photos and videos</a>
+          <a href="#ai-processing">On-device AI/ML</a>
+          <a href="#vault">Private Vault</a>
+          <a href="#storage">Local storage</a>
+          <a href="#network">Network communication</a>
+          <a href="#sharing">Sharing and third parties</a>
+          <a href="#advertising">Advertising and analytics</a>
+          <a href="#permissions">Permissions</a>
+          <a href="#retention">Retention and deletion</a>
+          <a href="#children">Children's privacy</a>
+          <a href="#security">Data security</a>
+          <a href="#rights">Your choices and rights</a>
+          <a href="#changes">Policy changes</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </aside>
+
+      <article class="policy" id="policy">
+        <section id="introduction">
+          <p class="section-number">01</p>
+          <h2>Introduction</h2>
+          <p>Luma Gallery is an Android photo and video gallery application. It is designed to help you browse, organize, edit, share, analyze, and protect media stored on your device. This Privacy Policy describes the data handling of the current Luma Gallery application build identified by package name <code>com.example.g</code>.</p>
+          <p>Read this policy together with the permission prompts shown by Android and the privacy information of any service or app you choose when sharing content.</p>
+        </section>
+
+        <section id="information">
+          <p class="section-number">02</p>
+          <h2>Information we collect</h2>
+          <p>The application works with data stored on your device. Depending on the features you use, this can include selected photos and videos; media identifiers, file names, MIME types, dates, dimensions, album or folder information, and related metadata; local analysis results; favorites; app settings; and encrypted Private Vault metadata.</p>
+          <p>For app-lock and Private Vault verification, the application stores a salted verifier rather than your secret code in readable form. The app does not provide an account-registration feature in this build.</p>
+        </section>
+
+        <section id="media-access">
+          <p class="section-number">03</p>
+          <h2>Photos and videos access</h2>
+          <p>Luma Gallery asks Android for access to photos and videos so it can display, organize, edit, analyze, share, restore, and manage the media available to the app. On supported Android versions, you may grant access to selected visual media rather than the entire library. Android controls the permission decision, and you can change it in device settings.</p>
+          <p>When you place media in Private Vault, the app creates an encrypted copy in its app-private storage before the original is moved to Android's recycle bin or otherwise handled through the Android media flow. You should verify the result before permanently removing an original.</p>
+        </section>
+
+        <section id="ai-processing">
+          <p class="section-number">04</p>
+          <h2>On-device AI/ML processing</h2>
+          <p>Luma Gallery includes a bundled LiteRT/TensorFlow Lite model and local forensic-analysis components. Image analysis, metadata inspection, and stored analysis results are processed on your device in the current build. The source code contains no implemented upload path for media analysis.</p>
+          <p>Analysis is probabilistic and may be unavailable or incorrect. It is not proof of whether content is authentic, generated, edited, or safe. Do not rely on a result as the sole basis for an important decision.</p>
+        </section>
+
+        <section id="vault">
+          <p class="section-number">05</p>
+          <h2>Private Vault and encryption</h2>
+          <p>Private Vault stores selected media in app-private storage and encrypts it using AES-256-GCM with a key managed by Android Keystore. Vault metadata is also encrypted. Temporary decrypted previews can be created in the app cache while the vault is open and are cleared when the vault closes or locks.</p>
+          <p>Encryption reduces risk but does not guarantee absolute security. A rooted or compromised device, malware, an unlocked device, screenshots, backups outside the app's control, or loss of the device may reduce protection. Keep your device and secret code secure.</p>
+        </section>
+
+        <section id="storage">
+          <p class="section-number">06</p>
+          <h2>Local storage and database</h2>
+          <p>Luma Gallery uses local app storage, SharedPreferences, and a Room database for settings, favorites, analysis records, and feature state. The app's backup configuration excludes private and sensitive app data. These local records help provide gallery and analysis features; they are not an online user profile in the current build.</p>
+        </section>
+
+        <section id="network">
+          <p class="section-number">07</p>
+          <h2>Network communication</h2>
+          <p>The current source build has no implemented network client or remote media-analysis service. Its Android network security configuration disallows cleartext traffic. This does not prevent Android, a distribution store, your device manufacturer, or a separate app you choose from applying their own network practices.</p>
+          <p>If a future version adds remote processing, updates, analytics, crash reporting, or another online service, this policy and the relevant store disclosures will be updated before that feature is released.</p>
+        </section>
+
+        <section id="sharing">
+          <p class="section-number">08</p>
+          <h2>Data sharing and third parties</h2>
+          <p>Luma Gallery does not include a built-in media-sharing service in the current source build. When you intentionally use Android's share sheet, the receiving app or service may receive the content and information you select. Its privacy policy then applies.</p>
+          <p>If you install the app from a third-party store, that store may process account, download, device, or diagnostic information under its own policy. This policy covers Luma Gallery's application behavior, not the store's separate practices.</p>
+        </section>
+
+        <section id="advertising">
+          <p class="section-number">09</p>
+          <h2>Advertising and analytics</h2>
+          <p>No advertising, behavioral analytics, or crash-reporting SDK is included in the reviewed application dependencies. This privacy-policy webpage also contains no analytics or advertising script. If that changes in a future release, Luma Gallery will update this policy and the applicable store disclosures.</p>
+        </section>
+
+        <section id="permissions">
+          <p class="section-number">10</p>
+          <h2>Permissions</h2>
+          <div class="permission-table" role="region" aria-label="Android permissions used by Luma Gallery" tabindex="0">
+            <table>
+              <thead><tr><th scope="col">Permission</th><th scope="col">Purpose</th></tr></thead>
+              <tbody>
+                <tr><td>Photos and videos / selected visual media</td><td>Display and manage media that Android makes available to the app.</td></tr>
+                <tr><td>Legacy external storage access</td><td>Compatibility with older Android versions where required for media access.</td></tr>
+                <tr><td>Notifications</td><td>Show local analysis notifications when you allow them.</td></tr>
+                <tr><td>Install shortcut</td><td>Offer an optional launcher shortcut for a user-selected app-logo experience on compatible devices.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>You can deny or revoke optional permissions through Android settings. Some features will not work without the corresponding access.</p>
+        </section>
+
+        <section id="retention">
+          <p class="section-number">11</p>
+          <h2>Data retention and deletion</h2>
+          <p>Local app data is retained on your device while it is needed for the feature that created it or until you clear it, remove the related media, clear the app's storage, or uninstall the app. Clearing app storage or uninstalling can permanently remove app-private Private Vault media and local records. Luma Gallery does not provide cloud backup or recovery in the current build.</p>
+          <p>Media moved to Android's recycle bin is subject to Android and device storage behavior. Before clearing data or uninstalling, restore any Private Vault items you want to keep.</p>
+        </section>
+
+        <section id="children">
+          <p class="section-number">12</p>
+          <h2>Children's privacy</h2>
+          <p>Luma Gallery is not designed to collect personal information from children. Because the app can display media already stored on a device, a parent or guardian should supervise use where appropriate. If you believe device content requires removal, use Android and app storage controls to remove it.</p>
+        </section>
+
+        <section id="security">
+          <p class="section-number">13</p>
+          <h2>Data security</h2>
+          <p>The app uses Android permission controls, app-private storage, Android Keystore-backed encryption for Private Vault content, encrypted vault metadata, release code shrinking, and cleartext-traffic restrictions. Security measures reduce risk but cannot eliminate it. Keep Android updated and avoid installing software from untrusted sources.</p>
+        </section>
+
+        <section id="rights">
+          <p class="section-number">14</p>
+          <h2>Your choices and rights</h2>
+          <p>You can control media and notification permissions in Android settings; remove individual media from the app's available library; manage or restore vault content; clear application storage; and uninstall the app. Rights under privacy law vary by location and circumstances. This offline-first build does not operate a Luma Gallery account service, so there is no online account dashboard.</p>
+        </section>
+
+        <section id="changes">
+          <p class="section-number">15</p>
+          <h2>Changes to this Privacy Policy</h2>
+          <p>We may update this policy when the application or its data practices change. The date at the top of this page identifies the latest revision. Review the policy after updating the app, especially if a release introduces an online or third-party service.</p>
+        </section>
+
+        <section id="contact">
+          <p class="section-number">16</p>
+          <h2>Contact information</h2>
+          <p>A company name, postal address, and dedicated privacy email have not been published for the current project, so they are not invented here. For project information, use the <a href="https://github.com/Sooriyansh/luma-gallery-app" target="_blank" rel="noopener noreferrer">Luma Gallery project repository</a> or the publisher contact details shown in the store listing from which you obtained the app.</p>
+          <div class="notice"><strong>Publisher action needed:</strong> Before a production store release, add a monitored privacy contact method and update this section with the publisher's verified details.</div>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <div><a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">✦</span><span>Luma <strong>Gallery</strong></span></a><p>Privacy policy for the Android application.</p></div>
+    <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
