@@ -35,8 +35,8 @@ public class EyeLockActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_lock);
         SystemBarInsets.screen(getWindow(), findViewById(android.R.id.content));
-        ((TextView) findViewById(R.id.lock_message)).setText("Eye has its own PIN. You can also unlock it with your fingerprint.");
-        ((Button) findViewById(R.id.unlock_pin)).setText("Use Eye PIN");
+        ((TextView) findViewById(R.id.lock_message)).setText("Private Vault is protected by your secret code. Fingerprint unlock is available when supported.");
+        ((Button) findViewById(R.id.unlock_pin)).setText("Use secret code");
         findViewById(R.id.unlock_pin).setOnClickListener(v -> showPin());
         findViewById(R.id.unlock_biometric).setOnClickListener(v -> showBiometric());
         if (!EyePinStore.hasPin(this)) setupPin(); else showBiometric();
@@ -46,19 +46,19 @@ public class EyeLockActivity extends AppCompatActivity {
         EditText input = new EditText(this);
         input.setHint(hint);
         input.setSingleLine();
-        input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         input.setPadding(48, 16, 48, 16);
         return input;
     }
 
     private void setupPin() {
-        EditText input = pinField("Create separate Eye PIN");
-        new MaterialAlertDialogBuilder(this).setCancelable(false).setTitle("Set Eye lock")
+        EditText input = pinField("Enter secret code");
+        new MaterialAlertDialogBuilder(this).setCancelable(false).setTitle("Set Up Private Vault")
                 .setMessage("Use a 4–8 digit PIN. This can be different from the Gallery PIN.")
                 .setView(input).setPositiveButton("Next", (dialog, which) -> {
                     String pin = input.getText().toString();
-                    if (!pin.matches("\\d{4,8}")) {
-                        Toast.makeText(this, "Use 4 to 8 digits", Toast.LENGTH_LONG).show();
+                    if (pin.codePointCount(0, pin.length()) < 4) {
+                        Toast.makeText(this, "Use at least 4 characters", Toast.LENGTH_LONG).show();
                         setupPin();
                     } else {
                         confirmPin(pin);
@@ -67,31 +67,34 @@ public class EyeLockActivity extends AppCompatActivity {
     }
 
     private void confirmPin(String original) {
-        EditText input = pinField("Confirm Eye PIN");
-        new MaterialAlertDialogBuilder(this).setCancelable(false).setTitle("Confirm Eye PIN")
+        EditText input = pinField("Confirm secret code");
+        new MaterialAlertDialogBuilder(this).setCancelable(false).setTitle("Confirm secret code")
                 .setView(input).setNegativeButton("Back", (dialog, which) -> setupPin())
                 .setPositiveButton("Save", (dialog, which) -> {
                     if (!original.equals(input.getText().toString())) {
-                        Toast.makeText(this, "PINs did not match", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "Codes did not match", Toast.LENGTH_LONG).show();
                         setupPin();
                     } else {
                         EyePinStore.save(this, original.toCharArray());
-                        EyeSession.unlock();
+                        EyeSession.unlock(this);
                         complete();
                     }
                 }).show();
     }
 
     private void showPin() {
-        EditText input = pinField("Eye PIN");
-        new MaterialAlertDialogBuilder(this).setTitle("Unlock Eye").setView(input)
+        if (!EyePinStore.canAttempt(this)) { Toast.makeText(this, "Please wait before trying again", Toast.LENGTH_LONG).show(); return; }
+        EditText input = pinField("Secret code");
+        new MaterialAlertDialogBuilder(this).setTitle("Unlock Private Vault").setView(input)
                 .setNegativeButton("Fingerprint", (dialog, which) -> showBiometric())
                 .setPositiveButton("Unlock", (dialog, which) -> {
                     if (EyePinStore.verify(this, input.getText().toString().toCharArray())) {
-                        EyeSession.unlock();
+                        EyePinStore.recordSuccess(this);
+                        EyeSession.unlock(this);
                         complete();
                     } else {
-                        Toast.makeText(this, "Incorrect Eye PIN", Toast.LENGTH_SHORT).show();
+                        EyePinStore.recordFailure(this);
+                        Toast.makeText(this, "Unable to unlock Private Vault", Toast.LENGTH_SHORT).show();
                         showPin();
                     }
                 }).show();
@@ -111,7 +114,8 @@ public class EyeLockActivity extends AppCompatActivity {
                     @Override public void onAuthenticationSucceeded(
                             @NonNull BiometricPrompt.AuthenticationResult result) {
                         showing = false;
-                        EyeSession.unlock();
+                        EyePinStore.recordSuccess(EyeLockActivity.this);
+                        EyeSession.unlock(EyeLockActivity.this);
                         complete();
                     }
 
@@ -120,9 +124,9 @@ public class EyeLockActivity extends AppCompatActivity {
                         showing = false;
                     }
                 }).authenticate(new BiometricPrompt.PromptInfo.Builder()
-                        .setTitle("Unlock Eye").setSubtitle("Private photos")
+                        .setTitle("Unlock Private Vault").setSubtitle("Private photos and videos")
                         .setAllowedAuthenticators(allowed)
-                        .setNegativeButtonText("Use Eye PIN").build());
+                        .setNegativeButtonText("Use secret code").build());
     }
 
     private void complete() {

@@ -5,12 +5,17 @@
         android:layout_margin="4dp" app:cardBackgroundColor="?attr/colorSecondaryContainer" app:cardCornerRadius="20dp">
         <TextView android:id="@+id/eye_status" android:layout_width="match_parent" android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_lock" android:drawablePadding="10dp" android:gravity="center_vertical"
-            android:minHeight="56dp" android:paddingHorizontal="16dp" android:text="Eye unlocked for 30 seconds"
+            android:minHeight="56dp" android:paddingHorizontal="16dp" android:text="Private Vault unlocked"
             android:textAppearance="?attr/textAppearanceTitleMedium" />
     </com.google.android.material.card.MaterialCardView>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="end" android:paddingHorizontal="8dp">
+        <com.google.android.material.button.MaterialButton android:id="@+id/vault_recycle" style="@style/Widget.G.Button.Text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Recycle Bin" app:icon="@drawable/ic_delete" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/vault_settings" style="@style/Widget.G.Button.Text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Settings" app:icon="@drawable/ic_settings" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/vault_lock_now" style="@style/Widget.G.Button.Text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Lock now" app:icon="@drawable/ic_lock" />
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView android:id="@+id/eye_grid" android:layout_width="match_parent"
         android:layout_height="0dp" android:layout_weight="1" android:clipToPadding="false" android:padding="4dp" android:paddingBottom="96dp" />
     <TextView android:id="@+id/eye_empty" android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:gravity="center" android:padding="32dp" android:text="Eye is empty. Hide photos from the photo viewer."
+        android:gravity="center" android:padding="32dp" android:text="Private Vault is empty. Hide photos or videos from the gallery."
         android:textAppearance="?attr/textAppearanceBodyLarge" android:visibility="gone" />
 </LinearLayout>

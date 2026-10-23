@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Network security configuration. This app is offline-first but enforce HTTPS
+     for any future network calls (e.g. definition updates, analytics, etc.). -->
+<network-security-config>
+    <!-- In release builds, only allow HTTPS connections. -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <!-- Debug builds may need localhost or emulator connections over HTTP. -->
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="user" />
+            <certificates src="system" />
+        </trust-anchors>
+    </debug-overrides>
+</network-security-config>

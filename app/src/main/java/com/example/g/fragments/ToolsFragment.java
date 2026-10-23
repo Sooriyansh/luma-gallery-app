@@ -19,6 +19,8 @@ import com.example.g.activities.MainActivity;
 import com.example.g.activities.RecycleBinActivity;
 import com.example.g.activities.SearchActivity;
 import com.example.g.ui.AppLogoManager;
+import com.example.g.security.EyePinStore;
+import com.example.g.security.VaultSettings;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -56,7 +58,8 @@ public class ToolsFragment extends Fragment {
             message.setText("Manage media folders, AI confidence and Android recycle bin. Luma keeps edits non-destructive.");
             action.setText("Open Recycle Bin");action.setIconResource(R.drawable.ic_delete);
             action.setOnClickListener(x->startActivity(new Intent(requireContext(),RecycleBinActivity.class)));
-            addLogoSettings(view);addButton(view,"Add media folder",FolderAccessActivity.class);addAiDetectionSettings(view);
+            addVaultSettings(view);addLogoSettings(view);addButton(view,"Add media folder",FolderAccessActivity.class);addAiDetectionSettings(view);
+            addPrivacyPolicyButton(view);
         }else{
             icon.setImageResource(R.drawable.ic_ai_scan);title.setText("AI Gallery Scan");
             message.setText("Check new and existing media with private on-device metadata, provenance and forensic analysis.");
@@ -64,6 +67,18 @@ public class ToolsFragment extends Fragment {
             action.setOnClickListener(x->{x.performHapticFeedback(android.view.HapticFeedbackConstants.CONTEXT_CLICK);com.example.g.analysis.AnalysisScheduler.requestRescan(requireContext());Toast.makeText(requireContext(),"AI gallery scan started",Toast.LENGTH_SHORT).show();});
             addButton(view,"Search library",SearchActivity.class);addButton(view,"Recycle Bin",RecycleBinActivity.class);
         }
+
+    }
+
+    private void addPrivacyPolicyButton(View root) {
+        LinearLayout box = root.findViewById(R.id.tools_content);
+        MaterialButton button = new MaterialButton(requireContext(), null, com.google.android.material.R.attr.materialButtonOutlinedStyle);
+        button.setText("Privacy Policy");
+        button.setIconResource(R.drawable.ic_lock);
+        button.setOnClickListener(view -> startActivity(new Intent(requireContext(), com.example.g.activities.PrivacyPolicyActivity.class)));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2);
+        params.topMargin = dp(10);
+        box.addView(button, params);
     }
 
     private void addButton(View root,String label,Class<?> target){
@@ -81,6 +96,28 @@ public class ToolsFragment extends Fragment {
         button.setOnClickListener(view->{final int[] values={80,85,90,95};String[] labels={"80% - more results","85% - recommended","90% - fewer false positives","95% - strict"};int current=com.example.g.analysis.AnalysisSettings.confidenceThreshold(requireContext());int checked=1;for(int i=0;i<values.length;i++)if(values[i]==current)checked=i;new MaterialAlertDialogBuilder(requireContext()).setTitle("AI detection confidence").setSingleChoiceItems(labels,checked,(dialog,which)->{com.example.g.analysis.AnalysisSettings.setConfidenceThreshold(requireContext(),values[which]);com.example.g.analysis.AnalysisScheduler.requestRescan(requireContext());dialog.dismiss();}).setNegativeButton("Cancel",null).show();});
         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(-1,-2);params.topMargin=dp(10);box.addView(button,params);
     }
+
+    private void addVaultSettings(View root) {
+        LinearLayout box=root.findViewById(R.id.tools_content);
+        MaterialButton button=new MaterialButton(requireContext(),null,com.google.android.material.R.attr.materialButtonOutlinedStyle);
+        button.setText("Private Vault settings"); button.setIconResource(R.drawable.ic_lock);
+        button.setOnClickListener(v -> vaultSettingsMenu());
+        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(-1,-2);params.topMargin=dp(10);box.addView(button,params);
+    }
+
+    private void vaultSettingsMenu() {
+        String shortcut=VaultSettings.showShortcut(requireContext())?"Hide Private Vault shortcut":"Show Private Vault shortcut";
+        new MaterialAlertDialogBuilder(requireContext()).setTitle("Private Vault")
+                .setItems(new String[]{shortcut,"Auto-lock","Change secret code","Security information"}, (d, which) -> {
+                    if(which==0){boolean next=!VaultSettings.showShortcut(requireContext());VaultSettings.setShowShortcut(requireContext(),next);Toast.makeText(requireContext(),next?"Private Vault shortcut shown":"Private Vault shortcut hidden",Toast.LENGTH_SHORT).show();}
+                    else if(which==1) chooseAutoLock(); else if(which==2) changeVaultCode();
+                    else new MaterialAlertDialogBuilder(requireContext()).setTitle("Private Vault security").setMessage("Private media is encrypted in app-private storage with an Android Keystore key. Your secret code is saved only as a salted verifier. Rooted or compromised devices and an unlocked device can reduce privacy.").setPositiveButton("Close",null).show();
+                }).show();
+    }
+    private void chooseAutoLock(){long[] values={0L,30_000L,60_000L,300_000L};String[] labels={"Immediately","After 30 seconds","After 1 minute","After 5 minutes"};new MaterialAlertDialogBuilder(requireContext()).setTitle("Auto-Lock Private Vault").setSingleChoiceItems(labels,1,(d,w)->{VaultSettings.setAutoLockMs(requireContext(),values[w]);d.dismiss();}).setNegativeButton("Cancel",null).show();}
+    private void changeVaultCode(){if(!EyePinStore.hasPin(requireContext())){Toast.makeText(requireContext(),"Set up Private Vault first",Toast.LENGTH_SHORT).show();return;}android.widget.EditText current=new android.widget.EditText(requireContext());current.setHint("Current secret code");current.setInputType(android.text.InputType.TYPE_CLASS_TEXT|android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);new MaterialAlertDialogBuilder(requireContext()).setTitle("Change secret code").setView(current).setNegativeButton("Cancel",null).setPositiveButton("Continue",(d,w)->{if(!EyePinStore.verify(requireContext(),current.getText().toString().toCharArray())){Toast.makeText(requireContext(),"Unable to verify secret code",Toast.LENGTH_SHORT).show();return;}enterNewVaultCode();}).show();}
+    private void enterNewVaultCode(){android.widget.EditText code=new android.widget.EditText(requireContext());code.setHint("New secret code");code.setInputType(android.text.InputType.TYPE_CLASS_TEXT|android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);new MaterialAlertDialogBuilder(requireContext()).setTitle("New secret code").setView(code).setNegativeButton("Cancel",null).setPositiveButton("Continue",(d,w)->{String value=code.getText().toString();if(value.codePointCount(0,value.length())<4){Toast.makeText(requireContext(),"Use at least 4 characters",Toast.LENGTH_SHORT).show();return;}confirmNewVaultCode(value);}).show();}
+    private void confirmNewVaultCode(String original){android.widget.EditText confirm=new android.widget.EditText(requireContext());confirm.setHint("Confirm new secret code");confirm.setInputType(android.text.InputType.TYPE_CLASS_TEXT|android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);new MaterialAlertDialogBuilder(requireContext()).setTitle("Confirm new secret code").setView(confirm).setNegativeButton("Cancel",null).setPositiveButton("Save",(d,w)->{if(!original.equals(confirm.getText().toString())){Toast.makeText(requireContext(),"Codes did not match",Toast.LENGTH_SHORT).show();return;}EyePinStore.save(requireContext(),original.toCharArray());Toast.makeText(requireContext(),"Private Vault secret code changed",Toast.LENGTH_SHORT).show();}).show();}
 
     private void addLogoSettings(View root) {
         LinearLayout box = root.findViewById(R.id.tools_content);

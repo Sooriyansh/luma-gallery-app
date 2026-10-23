@@ -11,7 +11,7 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 public final class AnalysisWorker extends Worker {
-    public static final String URI_KEY = "media_uri", NAME_KEY = "media_name", MIME_KEY = "media_mime", MODIFIED_KEY = "media_modified";
+    public static final String URI_KEY = "media_uri", NAME_KEY = "media_name", MIME_KEY = "media_mime", MODIFIED_KEY = "media_modified", FORCE_KEY = "force_scan";
     public AnalysisWorker(@NonNull Context context, @NonNull WorkerParameters params) { super(context, params); }
     @NonNull @Override public Result doWork() {
         String raw = getInputData().getString(URI_KEY); if (raw == null) return Result.failure();
@@ -20,9 +20,10 @@ public final class AnalysisWorker extends Worker {
         saved.modified = getInputData().getLong(MODIFIED_KEY, 0); saved.scannedAt = System.currentTimeMillis(); saved.createdAt = saved.scannedAt; saved.modelVersion = AnalysisSettings.modelVersion(getApplicationContext());
         try { saved.mediaStoreId = android.content.ContentUris.parseId(Uri.parse(raw)); } catch (Exception ignored) { }
         try { saved.fileHash = sha256(Uri.parse(raw)); } catch (Exception ignored) { }
+        boolean force = getInputData().getBoolean(FORCE_KEY, false);
         MediaAnalysisEntity cached = AnalysisDatabase.get(getApplicationContext()).analyses().get(raw);
         // Re-run results made with an earlier detector revision or a different threshold.
-        if (cached != null && saved.modelVersion.equals(cached.modelVersion) && cached.modified == saved.modified && !saved.fileHash.isEmpty() && saved.fileHash.equals(cached.fileHash) && !AnalysisStatus.PENDING.equals(cached.status) && !AnalysisStatus.FAILED.equals(cached.status)) return Result.success();
+        if (!force && cached != null && saved.modelVersion.equals(cached.modelVersion) && cached.modified == saved.modified && !saved.fileHash.isEmpty() && saved.fileHash.equals(cached.fileHash) && !AnalysisStatus.PENDING.equals(cached.status) && !AnalysisStatus.FAILED.equals(cached.status)) return Result.success();
         // Persist this first so open galleries immediately render “Analyzing…” via Room observation.
         saved.status = AnalysisStatus.PENDING;
         AnalysisDatabase.get(getApplicationContext()).analyses().upsert(saved);

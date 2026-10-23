@@ -68,7 +68,7 @@ public class MediaAdapter extends androidx.recyclerview.widget.ListAdapter<Media
         if (analysis != null && AnalysisStatus.LIKELY_AI.equals(analysis.status) && analysis.confidence >= 85) {
             showAnalysisBadge(holder, item.isVideo() ? "AI Video" : "AI Generated");
         } else if (analysis != null && AnalysisStatus.POSSIBLY_AI.equals(analysis.status)) {
-            showPossibleBadge(holder, "Possible AI");
+            holder.badge.setVisibility(View.GONE);
         } else if (analysis != null && AnalysisStatus.POSSIBLY_EDITED.equals(analysis.status)) {
             showEditedBadge(holder, "Edited");
         } else if (analysis != null && "Screenshot".equals(analysis.mediaType)) {
@@ -91,7 +91,7 @@ public class MediaAdapter extends androidx.recyclerview.widget.ListAdapter<Media
         String analysisDescription = analysis == null ? "AI check queued"
                 : AnalysisStatus.PENDING.equals(analysis.status) ? "AI check in progress"
                 : AnalysisStatus.LIKELY_AI.equals(analysis.status) ? "AI-generation indicators found"
-                : AnalysisStatus.POSSIBLY_AI.equals(analysis.status) ? "possible AI indicators found"
+                : AnalysisStatus.POSSIBLY_AI.equals(analysis.status) ? "AI indicators detected; result is uncertain"
                 : AnalysisStatus.LIKELY_REAL.equals(analysis.status) ? "camera capture evidence found"
                 : "no confirmed AI-generation indicators";
         holder.itemView.setContentDescription(item.name + ", " + analysisDescription + (checked ? ", selected" : ""));

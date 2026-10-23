@@ -60,6 +60,7 @@ public class ImageViewerActivity extends AppCompatActivity {
     private boolean controlsVisible = true;
     private boolean slideshow;
     private File pendingHiddenFile;
+    private boolean waitingForVaultSetup;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final Runnable next = new Runnable() { @Override public void run() {
         if (slideshow && !images.isEmpty()) { pager.setCurrentItem((pager.getCurrentItem() + 1) % images.size(), true); handler.postDelayed(this, 3000); }
@@ -68,7 +69,7 @@ public class ImageViewerActivity extends AppCompatActivity {
         if (result.getResultCode() == RESULT_OK) {
             boolean wasHide=pendingHiddenFile!=null;
             pendingHiddenFile = null;
-            if(wasHide)Toast.makeText(this, "Photo moved to Eye", Toast.LENGTH_SHORT).show();
+            if(wasHide)            Toast.makeText(this, "Photo moved to Private Vault", Toast.LENGTH_SHORT).show();
             if(hideButton!=null){hideButton.setEnabled(true);hideButton.setText("Hide");}
             int position = pager.getCurrentItem(); if (position < images.size()) images.remove(position); pager.getAdapter().notifyDataSetChanged(); if (images.isEmpty()) finish(); else setCurrent(Math.min(position, images.size() - 1));
         } else if (pendingHiddenFile != null) {
@@ -77,13 +78,18 @@ public class ImageViewerActivity extends AppCompatActivity {
             Toast.makeText(this, "Hide cancelled; photo was not moved to Eye", Toast.LENGTH_LONG).show();
         }
     });
+    private final ActivityResultLauncher<Intent> vaultSetupLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (waitingForVaultSetup && result.getResultCode() == RESULT_OK) { waitingForVaultSetup = false; hide(); }
+                else waitingForVaultSetup = false;
+            });
 
     @Override protected void onCreate(Bundle state) {
         super.onCreate(state); setContentView(R.layout.activity_image_viewer);
         uri = getIntent().getData(); name = getIntent().getStringExtra("name"); pager = findViewById(R.id.image_pager); toolbar = findViewById(R.id.toolbar); actions = findViewById(R.id.image_actions); aiButton = findViewById(R.id.action_ai); hideButton=findViewById(R.id.action_hide);
         SystemBarInsets.imageViewer(getWindow(), findViewById(android.R.id.content), toolbar, pager, actions);
         toolbar.setTitle(name); toolbar.setNavigationIcon(R.drawable.ic_arrow_back); toolbar.setNavigationContentDescription("Back to gallery"); toolbar.setNavigationOnClickListener(view -> finish()); updateFavoriteAction();
-        toolbar.setOnMenuItemClickListener(item -> { if (item.getItemId() == R.id.view_share) share(); else if (item.getItemId() == R.id.view_favorite) favorite(); else if (item.getItemId() == R.id.view_slideshow) toggleSlideshow(); else if (item.getItemId() == R.id.view_info) info(); return true; });
+        toolbar.setOnMenuItemClickListener(item -> { if (item.getItemId() == R.id.view_share) share(); else if (item.getItemId() == R.id.view_favorite) favorite(); else if (item.getItemId() == R.id.view_slideshow) toggleSlideshow(); else if (item.getItemId() == R.id.view_info) info(); else if (item.getItemId() == R.id.view_hide) hide(); return true; });
         pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() { @Override public void onPageSelected(int position) { setCurrent(position); }});
         pager.setAdapter(new Pages()); loadPages();
         findViewById(R.id.action_rotate).setOnClickListener(view -> edit(90, 0));
@@ -99,16 +105,17 @@ public class ImageViewerActivity extends AppCompatActivity {
     private void loadPages() { MediaRepository.get(this).load(10000, 0, (items, error) -> { for (MediaItem item : items) if (!item.isVideo()) images.add(item); int target = 0; for (int i = 0; i < images.size(); i++) if (images.get(i).uri.equals(uri)) { target = i; break; } pager.getAdapter().notifyDataSetChanged(); pager.setCurrentItem(target, false); setCurrent(target); }); }
     private void setCurrent(int position) { if (position >= 0 && position < images.size()) { MediaItem item = images.get(position); uri = item.uri; name = item.name; toolbar.setTitle(name); updateFavoriteAction(); } }
     private void share() { Intent share = new Intent(Intent.ACTION_SEND).setType("image/*").putExtra(Intent.EXTRA_STREAM, uri).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); startActivity(Intent.createChooser(share, "Share photo")); }
-    private void favorite() { android.content.SharedPreferences preferences = getSharedPreferences("favorites", 0); String key = uri.toString(); boolean add = !preferences.getBoolean(key, false); preferences.edit().putBoolean(key, add).apply(); findViewById(R.id.action_favorite).performHapticFeedback(HapticFeedbackConstants.CONFIRM); findViewById(R.id.action_favorite).animate().scaleX(.86f).scaleY(.86f).setDuration(90).withEndAction(()->findViewById(R.id.action_favorite).animate().scaleX(1f).scaleY(1f).setDuration(140).start()).start(); updateFavoriteAction(); Toast.makeText(this, add ? "Added to Favorites" : "Removed from Favorites", Toast.LENGTH_SHORT).show(); }
+    private void favorite() { android.content.SharedPreferences preferences = getSharedPreferences("favorites", 0); String key = uri.toString(); boolean add = !preferences.getBoolean(key, false); preferences.edit().putBoolean(key, add).apply(); com.example.g.ui.HapticFeedback.confirm(findViewById(R.id.action_favorite)); findViewById(R.id.action_favorite).animate().scaleX(.86f).scaleY(.86f).setDuration(90).withEndAction(()->findViewById(R.id.action_favorite).animate().scaleX(1f).scaleY(1f).setDuration(140).start()).start(); updateFavoriteAction(); Toast.makeText(this, add ? "Added to Favorites" : "Removed from Favorites", Toast.LENGTH_SHORT).show(); }
     private void updateFavoriteAction() { if (toolbar == null || uri == null) return; boolean active = getSharedPreferences("favorites", 0).getBoolean(uri.toString(), false); android.view.MenuItem item = toolbar.getMenu().findItem(R.id.view_favorite); if (item != null) { item.setIcon(R.drawable.ic_favorite); item.setChecked(active); item.setTitle(active ? "Remove from favorites" : "Add to favorites"); androidx.core.view.MenuItemCompat.setContentDescription(item, active ? "Remove image from favorites" : "Add image to favorites"); } MaterialButton bottom=findViewById(R.id.action_favorite);if(bottom!=null){bottom.setText(active?"Favorited":"Favorite");bottom.setAlpha(active?1f:.82f);} }
     private void toggleSlideshow() { slideshow = !slideshow; handler.removeCallbacks(next); if (slideshow) { handler.postDelayed(next, 1000); Toast.makeText(this, "Slideshow started · 3 seconds", Toast.LENGTH_SHORT).show(); } else Toast.makeText(this, "Slideshow stopped", Toast.LENGTH_SHORT).show(); }
     private void info() {
         MediaItem item=current();if(item==null)return;
+        Uri detailsUri = item.uri;
         long when=Math.max(item.dateTaken,Math.max(item.dateAdded*1000,item.dateModified*1000));
         String base="Resolution: "+item.width+" × "+item.height+"\nSize: "+Formatter.formatFileSize(this,item.size)
                 +"\nType: "+item.mime+"\nAlbum: "+item.bucketName+"\nDate: "+DateFormat.getDateTimeInstance().format(new Date(when))+"\nLocation: "+item.relativePath;
-        com.example.g.analysis.AnalysisRepository.loadOne(this,uri.toString(),entries->{
-            com.example.g.analysis.MediaAnalysisEntity analysis=entries.get(uri.toString());String text=base;
+        com.example.g.analysis.AnalysisRepository.loadOne(this,detailsUri.toString(),entries->{
+            com.example.g.analysis.MediaAnalysisEntity analysis=entries.get(detailsUri.toString());String text=base;
             if(analysis!=null)text+="\n\nMedia source: "+safe(analysis.sourceType)+"\nMedia type: "+safe(analysis.mediaType)
                     +"\nCamera evidence: "+analysis.cameraEvidence+"%\nScreenshot evidence: "+analysis.screenshotConfidence+"%"
                     +"\nVisual AI model: "+(analysis.visualModelAvailable?analysis.modelConfidence+"%":"Unavailable")
@@ -117,6 +124,7 @@ public class ImageViewerActivity extends AppCompatActivity {
                     +"\nAI probability: "+analysis.aiProbability+"%\nReal probability: "+analysis.realProbability+"%"
                     +"\nConfidence level: "+safe(analysis.confidenceLevel)
                     +(analysis.reason==null||analysis.reason.isEmpty()?"":"\n\nDetails:\n"+analysis.reason);
+            else text += "\n\nAI analysis: Not scanned. Tap AI Scan to check this image.";
             new MaterialAlertDialogBuilder(this).setTitle(item.name).setMessage(text).setPositiveButton("Close",null).show();
         });
     }
@@ -124,7 +132,12 @@ public class ImageViewerActivity extends AppCompatActivity {
     private void trash() { try { if (AndroidCompatibility.supportsMediaTrash()) { PendingIntent request = MediaStore.createTrashRequest(getContentResolver(), Collections.singletonList(uri), true); trashLauncher.launch(new IntentSenderRequest.Builder(request.getIntentSender()).build()); } else if (getContentResolver().delete(uri, null, null) > 0) { pendingHiddenFile = null; finish(); } else { rollbackPendingHide(); Toast.makeText(this, "Android did not allow deletion", Toast.LENGTH_LONG).show(); } } catch (Exception error) { rollbackPendingHide(); Toast.makeText(this, "Android did not allow deletion", Toast.LENGTH_LONG).show(); } }
     private void rollbackPendingHide() { if (pendingHiddenFile != null) { pendingHiddenFile.delete(); pendingHiddenFile = null; } if(hideButton!=null){hideButton.setEnabled(true);hideButton.setText("Hide");} }
     private void hide() {
-        new MaterialAlertDialogBuilder(this).setTitle("Move photo to Eye?")
+        if (!com.example.g.security.EyePinStore.hasPin(this)) {
+            waitingForVaultSetup = true;
+            vaultSetupLauncher.launch(new Intent(this, EyeLockActivity.class));
+            return;
+        }
+        new MaterialAlertDialogBuilder(this).setTitle("Move photo to Private Vault?")
                 .setMessage("The photo will be encrypted, then its original will move to Android's Recycle Bin.")
                 .setNegativeButton("Cancel", null).setPositiveButton("Move", (dialog, which) ->
                 new Thread(() -> { try {
@@ -132,7 +145,7 @@ public class ImageViewerActivity extends AppCompatActivity {
                     pendingHiddenFile = VaultStore.importMedia(this, uri, name);
                     runOnUiThread(this::trash);
                 } catch (Exception error) {
-                    runOnUiThread(() -> {hideButton.setEnabled(true);hideButton.setText("Hide");Toast.makeText(this, "Could not move photo to Eye: " + error.getMessage(), Toast.LENGTH_LONG).show();});
+                    runOnUiThread(() -> {hideButton.setEnabled(true);hideButton.setText("Hide");Toast.makeText(this, "Could not move photo to Private Vault: " + error.getMessage(), Toast.LENGTH_LONG).show();});
                 } }).start()).show();
     }
 
@@ -140,7 +153,7 @@ public class ImageViewerActivity extends AppCompatActivity {
         BottomSheetDialog dialog=new BottomSheetDialog(this);LinearLayout box=new LinearLayout(this);box.setOrientation(LinearLayout.VERTICAL);box.setPadding(dp(24),dp(18),dp(24),dp(24));
         TextView title=new TextView(this);title.setText("Delete this image?");title.setTextAppearance(com.google.android.material.R.style.TextAppearance_Material3_HeadlineSmall);
         TextView message=new TextView(this);message.setText("The image will move to Android's Recycle Bin.");message.setPadding(0,dp(8),0,dp(18));
-        MaterialButton move=new MaterialButton(this);move.setText("Move to Trash");move.setIconResource(R.drawable.ic_delete);move.setOnClickListener(v->{v.performHapticFeedback(HapticFeedbackConstants.CONFIRM);dialog.dismiss();trash();});
+        MaterialButton move=new MaterialButton(this);move.setText("Move to Trash");move.setIconResource(R.drawable.ic_delete);move.setOnClickListener(v->{com.example.g.ui.HapticFeedback.confirm(v);dialog.dismiss();trash();});
         MaterialButton cancel=new MaterialButton(this,null,com.google.android.material.R.attr.materialButtonOutlinedStyle);cancel.setText("Cancel");cancel.setOnClickListener(v->dialog.dismiss());
         box.addView(title);box.addView(message);box.addView(move,new LinearLayout.LayoutParams(-1,-2));LinearLayout.LayoutParams cancelParams=new LinearLayout.LayoutParams(-1,-2);cancelParams.topMargin=dp(8);box.addView(cancel,cancelParams);dialog.setContentView(box);dialog.show();
     }
@@ -163,7 +176,7 @@ public class ImageViewerActivity extends AppCompatActivity {
                     && !com.example.g.analysis.AnalysisStatus.PENDING.equals(result.status);
             if (finished) {
                 aiButton.setEnabled(true); aiButton.setText("AI Scan");
-                aiButton.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+                com.example.g.ui.HapticFeedback.confirm(aiButton);
                 showAnalysisResult(result);
             } else if (attempt < 45) handler.postDelayed(() -> pollAnalysis(key, started, attempt + 1), 700);
             else { aiButton.setEnabled(true); aiButton.setText("AI Scan"); Toast.makeText(this, "Analysis is continuing in the background", Toast.LENGTH_LONG).show(); }
@@ -207,7 +220,7 @@ public class ImageViewerActivity extends AppCompatActivity {
 
     private String resultTitle(com.example.g.analysis.MediaAnalysisEntity result){
         if(com.example.g.analysis.AnalysisStatus.LIKELY_AI.equals(result.status))return "Likely AI Generated";
-        if(com.example.g.analysis.AnalysisStatus.POSSIBLY_AI.equals(result.status))return "Possibly AI Generated";
+        if(com.example.g.analysis.AnalysisStatus.POSSIBLY_AI.equals(result.status))return "AI indicators detected — result is uncertain";
         if(com.example.g.analysis.AnalysisStatus.POSSIBLY_EDITED.equals(result.status))return "AI Edited / Editing Indicators";
         if(com.example.g.analysis.AnalysisStatus.LIKELY_REAL.equals(result.status))return "Likely Not AI Generated";
         if(com.example.g.analysis.AnalysisStatus.FAILED.equals(result.status))return "Analysis Failed";

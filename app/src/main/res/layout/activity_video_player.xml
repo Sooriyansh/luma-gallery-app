@@ -6,7 +6,7 @@
         android:layout_gravity="center" android:padding="24dp" android:textColor="@android:color/white" android:visibility="gone" />
     <com.google.android.material.appbar.MaterialToolbar android:id="@+id/video_toolbar" android:layout_width="match_parent"
         android:layout_height="56dp" android:background="@color/black_scrim" android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
-        app:title="Video" />
+        app:title="Video" app:menu="@menu/video_player_menu" />
     <HorizontalScrollView android:id="@+id/video_actions" android:layout_width="match_parent" android:layout_height="72dp"
         android:layout_gravity="bottom" android:background="@color/black_scrim" android:fillViewport="true" android:scrollbars="none">
         <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent" android:gravity="center" android:orientation="horizontal" android:paddingHorizontal="6dp">

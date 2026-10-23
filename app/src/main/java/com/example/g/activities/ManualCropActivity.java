@@ -54,7 +54,26 @@ public class ManualCropActivity extends AppCompatActivity {
         SystemBarInsets.cropEditor(getWindow(), root, bar);
 
         try (InputStream input = getContentResolver().openInputStream(getIntent().getData())) {
-            crop.setBitmap(BitmapFactory.decodeStream(input));
+            if (input == null) { Toast.makeText(this, "Cannot open image", Toast.LENGTH_LONG).show(); finish(); return; }
+            // First pass: measure dimensions to choose an appropriate sample size.
+            BitmapFactory.Options bounds = new BitmapFactory.Options();
+            bounds.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(input, null, bounds);
+        } catch (Exception ignored) { }
+        try (InputStream input = getContentResolver().openInputStream(getIntent().getData())) {
+            if (input == null) { Toast.makeText(this, "Cannot open image", Toast.LENGTH_LONG).show(); finish(); return; }
+            BitmapFactory.Options bounds = new BitmapFactory.Options();
+            bounds.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(input, null, bounds);
+            int sample = 1;
+            while (bounds.outWidth / sample > 4096 || bounds.outHeight / sample > 4096) sample *= 2;
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = sample;
+            options.inPreferredConfig = android.graphics.Bitmap.Config.ARGB_8888;
+            try (InputStream input2 = getContentResolver().openInputStream(getIntent().getData())) {
+                if (input2 == null) { Toast.makeText(this, "Cannot open image", Toast.LENGTH_LONG).show(); finish(); return; }
+                crop.setBitmap(BitmapFactory.decodeStream(input2, null, options));
+            }
         } catch (Exception error) {
             Toast.makeText(this, "Cannot open image", Toast.LENGTH_LONG).show();
             finish();

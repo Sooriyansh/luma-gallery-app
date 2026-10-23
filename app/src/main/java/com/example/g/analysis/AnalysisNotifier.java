@@ -25,7 +25,9 @@ final class AnalysisNotifier {
         if (AndroidCompatibility.supportsNotificationChannels()) manager.createNotificationChannel(new NotificationChannel(CHANNEL, "AI media analysis", NotificationManager.IMPORTANCE_DEFAULT));
         Intent open = new Intent(context, analysis.mimeType.startsWith("video/") ? VideoPlayerActivity.class : ImageViewerActivity.class).setData(android.net.Uri.parse(analysis.uri)).putExtra("name", analysis.fileName).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         PendingIntent pending = PendingIntent.getActivity(context, analysis.uri.hashCode(), open, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL).setSmallIcon(R.mipmap.ic_launcher)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL)
+                // Use the monochrome vector drawable — mipmap/ic_launcher is not valid for notification icons.
+                .setSmallIcon(R.drawable.ic_launcher_monochrome)
                 .setContentTitle("AI-generated image detected").setContentText("AI-generation indicators found (" + analysis.confidence + "% confidence).")
                 .setStyle(new NotificationCompat.BigTextStyle().bigText("This is a probabilistic result, not definitive proof. Tap to review the evidence."))
                 .setContentIntent(pending).setAutoCancel(true);

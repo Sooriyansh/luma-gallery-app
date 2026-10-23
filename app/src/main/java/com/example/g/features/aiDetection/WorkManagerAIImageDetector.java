@@ -16,7 +16,7 @@ public final class WorkManagerAIImageDetector implements AIImageDetector {
 
     @Override public void scanImage(AIImageReference image) {
         if (image == null) return;
-        AnalysisScheduler.enqueue(app, image.uri, image.name, image.mimeType, image.modified);
+        AnalysisScheduler.enqueueNow(app, image.uri, image.name, image.mimeType, image.modified);
     }
 
     @Override public void scanImages(List<AIImageReference> images) {

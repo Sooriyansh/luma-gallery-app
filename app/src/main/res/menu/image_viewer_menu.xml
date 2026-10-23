@@ -3,4 +3,5 @@
  <item android:id="@+id/view_favorite" android:icon="@drawable/ic_favorite" android:title="Favorite" app:showAsAction="ifRoom"/>
  <item android:id="@+id/view_slideshow" android:title="Start slideshow" app:showAsAction="never"/>
  <item android:id="@+id/view_info" android:title="Photo details" app:showAsAction="never"/>
+ <item android:id="@+id/view_hide" android:icon="@drawable/ic_eye" android:title="Hide in Private Vault" app:showAsAction="never"/>
 </menu>

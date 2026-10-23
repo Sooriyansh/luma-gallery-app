@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<full-backup-content><exclude domain="file" path="vault/"/><exclude domain="sharedpref" path="security.xml"/></full-backup-content>
+<full-backup-content>
+    <!-- Vault encrypted media must never leave the device via cloud backup -->
+    <exclude domain="file" path="vault/"/>
+    <exclude domain="file" path="vault_bin/"/>
+    <!-- Security credentials must never be backed up -->
+    <exclude domain="sharedpref" path="security.xml"/>
+    <exclude domain="sharedpref" path="eye_security.xml"/>
+    <!-- Room analysis database contains private metadata; exclude from backup -->
+    <exclude domain="database" path="authenticity.db"/>
+    <exclude domain="database" path="authenticity.db-shm"/>
+    <exclude domain="database" path="authenticity.db-wal"/>
+</full-backup-content>

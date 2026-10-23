@@ -19,6 +19,19 @@ public final class AnalysisScheduler {
     private static boolean watching;
     private static ContentObserver observer;
     private AnalysisScheduler() { }
+    /** Stops the legacy automatic library watcher; scans are now started by an explicit user action. */
+    public static void stopLibraryWatch(Context context) {
+        Context app = context.getApplicationContext();
+        if (observer != null) {
+            try { app.getContentResolver().unregisterContentObserver(observer); } catch (Exception ignored) { }
+            observer = null;
+        }
+        watching = false;
+        WorkManager manager = WorkManager.getInstance(app);
+        manager.cancelUniqueWork("initial-media-library-scan");
+        manager.cancelUniqueWork("media-library-watch");
+        manager.cancelUniqueWork("recent-media-change-scan");
+    }
     public static void scheduleLibraryWatch(Context context) {
         if (watching) return; watching = true;
         Context app = context.getApplicationContext(); ContentResolver resolver = app.getContentResolver();
@@ -40,9 +53,17 @@ public final class AnalysisScheduler {
         WorkManager.getInstance(app).enqueueUniquePeriodicWork("media-library-watch", androidx.work.ExistingPeriodicWorkPolicy.KEEP, scan);
     }
     public static void enqueue(Context context, Uri uri, String name, String mime, long modified) {
+        enqueueInternal(context, uri, name, mime, modified, false);
+    }
+    /** Queues an explicit user-requested scan, even when a cached result exists. */
+    public static void enqueueNow(Context context, Uri uri, String name, String mime, long modified) {
+        enqueueInternal(context, uri, name, mime, modified, true);
+    }
+    private static void enqueueInternal(Context context, Uri uri, String name, String mime, long modified, boolean force) {
         if (uri == null || mime == null || (!mime.startsWith("image/") && !mime.startsWith("video/"))) return;
         Data data = new Data.Builder().putString(AnalysisWorker.URI_KEY, uri.toString()).putString(AnalysisWorker.NAME_KEY, name)
-                .putString(AnalysisWorker.MIME_KEY, mime).putLong(AnalysisWorker.MODIFIED_KEY, modified).build();
+                .putString(AnalysisWorker.MIME_KEY, mime).putLong(AnalysisWorker.MODIFIED_KEY, modified)
+                .putBoolean(AnalysisWorker.FORCE_KEY, force).build();
         // A newly received WhatsApp/download image should be checked as soon as Android reports
         // it to MediaStore, rather than waiting for a battery-state constraint to clear.
         // Include the detector revision so a corrected detector can replace stale classifications
@@ -50,7 +71,7 @@ public final class AnalysisScheduler {
         String workIdentity = uri + ":" + modified + ":" + AnalysisSettings.modelVersion(context);
         OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(AnalysisWorker.class).setInputData(data)
                 .addTag("media-analysis").addTag(workTag(uri.toString())).build();
-        WorkManager.getInstance(context.getApplicationContext()).enqueueUniqueWork("media-analysis-" + Integer.toHexString(workIdentity.hashCode()), ExistingWorkPolicy.KEEP, request);
+        WorkManager.getInstance(context.getApplicationContext()).enqueueUniqueWork("media-analysis-" + Integer.toHexString(workIdentity.hashCode()), force ? ExistingWorkPolicy.REPLACE : ExistingWorkPolicy.KEEP, request);
     }
     public static String workTag(String imageId) {
         return "ai-image-" + Integer.toHexString(imageId.hashCode());

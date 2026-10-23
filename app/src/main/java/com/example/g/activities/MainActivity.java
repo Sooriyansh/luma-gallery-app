@@ -16,6 +16,8 @@ import com.example.g.fragments.ToolsFragment;
 import com.example.g.fragments.VaultFragment;
 import com.example.g.security.EyeSession;
 import com.example.g.security.LockSession;
+import com.example.g.security.SecurePinStore;
+import com.example.g.security.VaultSettings;
 import com.example.g.ui.SystemBarInsets;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -60,11 +62,15 @@ public class MainActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.action_refresh) {
                 com.example.g.analysis.AnalysisScheduler.requestRescan(this);
                 Toast.makeText(this, "AI gallery scan started", Toast.LENGTH_SHORT).show();
+            } else if (item.getItemId() == R.id.action_screen_lock) {
+                startActivity(new Intent(this, LockActivity.class).putExtra("manage_lock", true));
             }
             return true;
         });
 
         nav = findViewById(R.id.bottom_nav);
+        // The vault is deliberately hidden by default; secret-code search remains available after setup.
+        nav.getMenu().findItem(R.id.nav_vault).setVisible(VaultSettings.showShortcut(this));
         nav.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_photos) show(new PhotosFragment());
             else if (item.getItemId() == R.id.nav_albums) show(new AlbumsFragment());
@@ -84,15 +90,30 @@ public class MainActivity extends AppCompatActivity {
                 else eyeLauncher.launch(new Intent(this, EyeLockActivity.class));
             }
         });
-        if (state == null) show(new PhotosFragment());
+        if (state == null) {
+            if (getIntent().getBooleanExtra("open_private_vault", false) && EyeSession.isUnlocked()) show(new VaultFragment());
+            else show(new PhotosFragment());
+        }
     }
 
     @Override protected void onResume() {
         super.onResume();
         refreshLogo();
-        if (!LockSession.isUnlocked() && !lockOpen) {
+        if (SecurePinStore.hasPin(this) && !LockSession.isUnlocked() && !lockOpen) {
             lockOpen = true;
             lockLauncher.launch(new Intent(this, LockActivity.class));
+        }
+    }
+
+    @Override protected void onStop() {
+        // "Immediately" means when private content leaves the foreground, not while its unlock UI is opening.
+        if (VaultSettings.autoLockMs(this) == 0L) EyeSession.lock();
+        super.onStop();
+    }
+
+    public void refreshVaultShortcut() {
+        if (nav != null) {
+            nav.getMenu().findItem(R.id.nav_vault).setVisible(VaultSettings.showShortcut(this));
         }
     }
 
